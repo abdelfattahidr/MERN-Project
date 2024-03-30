@@ -1,25 +1,30 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
+import { HiInformationCircle } from "react-icons/hi";
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch ,useSelector} from "react-redux"
-import { signInStart, signInSuccess, signInFailure } from "../redux/User/userSlice"
+import { useDispatch, useSelector } from 'react-redux';
+import {
+     signInStart,
+     signInSuccess,
+     signInFailure,
+} from '../redux/User/userSlice';
+// import OAuth from '../components/OAuth';
 
 export default function SignIn() {
      const [formData, setFormData] = useState({});
-     const { loading, error,errorMessage } = useSelector((state) => state.user);
-     const dispatch = useDispatch()
+     const { loading, error: errorMessage } = useSelector((state) => state.user);
+     const dispatch = useDispatch();
      const navigate = useNavigate();
-
      const handleChange = (e) => {
           setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
      };
      const handleSubmit = async (e) => {
           e.preventDefault();
           if (!formData.email || !formData.password) {
-               return dispatch(signInFailure('Please fill out all fields'))
+               return dispatch(signInFailure('Please fill all the fields'));
           }
           try {
-               dispatch(signInStart())
+               dispatch(signInStart());
                const res = await fetch('/api/auth/signin', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -27,10 +32,11 @@ export default function SignIn() {
                });
                const data = await res.json();
                if (data.success === false) {
-                    dispatch(signInFailure(data.message))
+                    dispatch(signInFailure(data.message));
                }
+
                if (res.ok) {
-                    dispatch(signInSuccess(data))
+                    dispatch(signInSuccess(data));
                     navigate('/');
                }
           } catch (error) {
@@ -55,15 +61,25 @@ export default function SignIn() {
                     </div>
                     {/* right */}
 
-                    <div className='flex-1' onSubmit={handleSubmit}>
-                         <form className='flex flex-col gap-4'>
+                    <div className='flex-1'>
+                         <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
                               <div>
                                    <Label value='Your email' />
-                                   <TextInput type='email' placeholder='name@company.com' id='email' onChange={handleChange} />
+                                   <TextInput
+                                        type='email'
+                                        placeholder='name@company.com'
+                                        id='email'
+                                        onChange={handleChange}
+                                   />
                               </div>
                               <div>
                                    <Label value='Your password' />
-                                   <TextInput type='password' placeholder='************' id='password' onChange={handleChange} />
+                                   <TextInput
+                                        type='password'
+                                        placeholder='**********'
+                                        id='password'
+                                        onChange={handleChange}
+                                   />
                               </div>
                               <Button
                                    gradientDuoTone='purpleToPink'
@@ -81,14 +97,14 @@ export default function SignIn() {
                               </Button>
                               {/* <OAuth /> */}
                          </form>
-                         <div className="flex gap-2 text-sm mt-5">
+                         <div className='flex gap-2 text-sm mt-5'>
                               <span>Dont Have an account?</span>
                               <Link to='/sign-up' className='text-blue-500'>
-                                   Sign in
+                                   Sign Up
                               </Link>
                          </div>
                          {errorMessage && (
-                              <Alert className='mt-5 bg-red-300 font-bold' color='failure'>
+                              <Alert className='mt-5 bg-red-500 text-white rounded font-medium' color='failure' icon={HiInformationCircle}>
                                    {errorMessage}
                               </Alert>
                          )}
