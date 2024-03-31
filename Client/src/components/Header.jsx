@@ -2,7 +2,7 @@ import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
-// import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 // import { toggleTheme } from '../redux/theme/themeSlice';
 // import { signoutSuccess } from '../redux/user/userSlice';
 import { useEffect, useState } from 'react';
@@ -12,7 +12,7 @@ export default function Header() {
      const location = useLocation();
      // const navigate = useNavigate();
      // const dispatch = useDispatch();
-     // const { currentUser } = useSelector((state) => state.user);
+     const { currentUser } = useSelector((state) => state.user);
      // const { theme } = useSelector((state) => state.theme);
      const [searchTerm, setSearchTerm] = useState('');
 
@@ -79,31 +79,33 @@ export default function Header() {
                     >
                          <FaMoon />
                     </Button>
-                    <Dropdown
-                         arrowIcon={false}
-                         inline
-                         label={
-                              <Avatar alt='user' img="currentUser.profilePicture" rounded />
-                         }
-                    >
-                         <Dropdown.Header>
-                              <span className='block text-sm'>currentUser.username</span>
-                              <span className='block text-sm font-medium truncate'>
-                                   currentUser.email
-                              </span>
-                         </Dropdown.Header>
-                         <Link to={'/dashboard?tab=profile'}>
-                              <Dropdown.Item>Profile</Dropdown.Item>
+                    {currentUser ? (
+                         <Dropdown
+                              arrowIcon={false}
+                              inline
+                              label={
+                                   <Avatar alt={currentUser.username} img={currentUser.profilePicture} rounded />
+                              }
+                         >
+                              <Dropdown.Header>
+                                   <span className='block text-sm'>{currentUser.username}</span>
+                                   <span className='block text-sm font-medium truncate'>
+                                        {currentUser.email}
+                                   </span>
+                              </Dropdown.Header>
+                              <Link to={'/dashboard?tab=profile'}>
+                                   <Dropdown.Item>Profile</Dropdown.Item>
+                              </Link>
+                              <Dropdown.Divider />
+                              <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
+                         </Dropdown>
+                    ) : (
+                         <Link to='/sign-in'>
+                              <Button gradientDuoTone='purpleToBlue' outline>
+                                   Sign In
+                              </Button>
                          </Link>
-                         <Dropdown.Divider />
-                         <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
-                    </Dropdown>
-                    <Link to='/sign-in'>
-                         <Button gradientDuoTone='purpleToBlue' outline>
-                              Sign In
-                         </Button>
-                    </Link>
-                    <Navbar.Toggle />
+                    )}
                </div>
                <Navbar.Collapse>
                     <Navbar.Link active={path === '/'} as={'div'}>
@@ -116,6 +118,6 @@ export default function Header() {
                          <Link to='/projects'>Projects</Link>
                     </Navbar.Link>
                </Navbar.Collapse>
-          </Navbar>
+          </Navbar >
      )
 }
