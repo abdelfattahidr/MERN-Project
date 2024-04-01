@@ -52,7 +52,8 @@ export default function Header() {
           <Navbar className='border-b-2'>
                <Link
                     to='/'
-                    className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
+                    className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'
+               >
                     <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
                          Sahand&apos;s
                     </span>
@@ -89,7 +90,7 @@ export default function Header() {
                               }
                          >
                               <Dropdown.Header>
-                                   <span className='block text-sm'>{currentUser.username}</span>
+                                   <span className='block text-sm'>@{currentUser.username}</span>
                                    <span className='block text-sm font-medium truncate'>
                                         {currentUser.email}
                                    </span>
@@ -107,6 +108,7 @@ export default function Header() {
                               </Button>
                          </Link>
                     )}
+                    <Navbar.Toggle />
                </div>
                <Navbar.Collapse>
                     <Navbar.Link active={path === '/'} as={'div'}>
@@ -119,6 +121,6 @@ export default function Header() {
                          <Link to='/projects'>Projects</Link>
                     </Navbar.Link>
                </Navbar.Collapse>
-          </Navbar >
-     )
+          </Navbar>
+     );
 }
