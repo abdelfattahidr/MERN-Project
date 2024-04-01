@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
-// import { toggleTheme } from '../redux/theme/themeSlice';
+import { toggleTheme } from '../redux/theme/themeSlice';
 // import { signoutSuccess } from '../redux/user/userSlice';
 import { useEffect, useState } from 'react';
 
@@ -11,9 +11,9 @@ export default function Header() {
      const path = useLocation().pathname;
      const location = useLocation();
      // const navigate = useNavigate();
-     // const dispatch = useDispatch();
+     const dispatch = useDispatch();
      const { currentUser } = useSelector((state) => state.user);
-     // const { theme } = useSelector((state) => state.theme);
+     const { theme } = useSelector((state) => state.theme);
      const [searchTerm, setSearchTerm] = useState('');
 
      useEffect(() => {
@@ -76,8 +76,9 @@ export default function Header() {
                          className='w-12 h-10 hidden sm:inline'
                          color='gray'
                          pill
+                         onClick={() => dispatch(toggleTheme())}
                     >
-                         <FaMoon />
+                         {theme === 'light' ? <FaMoon /> : <FaSun />}
                     </Button>
                     {currentUser ? (
                          <Dropdown
