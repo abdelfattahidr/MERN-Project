@@ -1,11 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import userRoutes from './Routes/user.route.js';
 import authRouter from './Routes/auth.route.js'
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_URL)
@@ -16,13 +18,13 @@ mongoose.connect(process.env.MONGO_URL)
           console.log(err)
      })
 
-app.use('/api/user', userRoutes)
 app.use('/api/auth', authRouter)
+app.use('/api/user', userRoutes)
 
 app.use((err, req, res, next) => {
      const statusCode = err.statusCode || 500
      const message = err.message || 'Internal server Error'
-     res.status(statusCode).json({success:false,statusCode,message})
+     res.status(statusCode).json({ success: false, statusCode, message })
 })
 
 app.listen(process.env.PORT, () => {
