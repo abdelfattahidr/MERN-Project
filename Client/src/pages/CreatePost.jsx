@@ -2,10 +2,7 @@ import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
 import { useState } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-<<<<<<< HEAD
 import { HiInformationCircle } from "react-icons/hi";
-=======
->>>>>>> 06fb252546752fbf930e7692d2bd630c409b7f63
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "../firebase";
 import { CircularProgressbar } from "react-circular-progressbar"
@@ -65,11 +62,7 @@ export default function CreatePost() {
                          </Select>
                     </div>
                     <div className="flex gap-4 items-center justify-between border-4 border-teal-400 border-dotted p-3">
-<<<<<<< HEAD
                          <FileInput type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
-=======
-                         <FileInput type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])}/>
->>>>>>> 06fb252546752fbf930e7692d2bd630c409b7f63
                          <Button type="button" gradientDuoTone={'purpleToBlue'} outline onClick={handleUploadImage} disabled={imageUploadProgress}>
                               {
                                    imageUploadProgress ?
@@ -80,13 +73,10 @@ export default function CreatePost() {
                               }
                          </Button>
                     </div>
-<<<<<<< HEAD
                     {imageUploadError && <Alert className='mt-5 bg-red-500 text-white rounded font-medium' color='failure' icon={HiInformationCircle}>
                          {imageUploadError}
                     </Alert>}
-=======
                     {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
->>>>>>> 06fb252546752fbf930e7692d2bd630c409b7f63
                     {formData.image && <img src={formData.image} alt="image" className="w-full h-72 object-cover" />}
                     <ReactQuill theme="snow" placeholder="Write your post" className="h-72 mb-12" required />
                     <Button type="submit" gradientDuoTone={'purpleToBlue'}>Publish</Button>
