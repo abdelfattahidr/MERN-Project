@@ -1,6 +1,7 @@
 import bcryptjs from 'bcryptjs'
 import { errorHandler } from '../utils/error.js'
 import User from '../Models/user.model.js'
+import { trusted } from 'mongoose';
 
 export const test = (req, res) => {
      res.json({ message: 'Api OK from user' });
@@ -104,6 +105,19 @@ export const getUsers = async (req, res, next) => {
                lastMonthUsers
           })
 
+     } catch (error) {
+          next(error);
+     }
+}
+
+export const getUser = async (req, res, next) => {
+     try {
+          const user = await User.findById(req.params.userId);
+          if (!user) {
+               return next(errorHandler(404, 'User not found'));
+          }
+          const { password, ...rest } = user._doc;
+          res.status(200).json(rest);
      } catch (error) {
           next(error);
      }
