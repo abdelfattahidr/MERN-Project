@@ -10,12 +10,11 @@ import { useEffect, useState } from 'react';
 export default function Header() {
      const path = useLocation().pathname;
      const location = useLocation();
-     // const navigate = useNavigate();
+     const navigate = useNavigate();
      const dispatch = useDispatch();
      const { currentUser } = useSelector((state) => state.user);
      const { theme } = useSelector((state) => state.theme);
      const [searchTerm, setSearchTerm] = useState('');
-
      useEffect(() => {
           const urlParams = new URLSearchParams(location.search);
           const searchTermFromUrl = urlParams.get('searchTerm');
@@ -42,10 +41,10 @@ export default function Header() {
 
      const handleSubmit = (e) => {
           e.preventDefault();
-          // const urlParams = new URLSearchParams(location.search);
-          // urlParams.set('searchTerm', searchTerm);
-          // const searchQuery = urlParams.toString();
-          // navigate(`/search?${searchQuery}`);
+          const urlParams = new URLSearchParams(location.search);
+          urlParams.set('searchTerm', searchTerm);
+          const searchQuery = urlParams.toString();
+          navigate(`/search?${searchQuery}`);
      };
 
      return (
